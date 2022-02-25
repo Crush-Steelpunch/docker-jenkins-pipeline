@@ -10,9 +10,8 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                sh "docker stop todoapppipeline"
-                sh "docker rm todoapppipeline"
-		sh "docker run -d -p 5001:5000 leonrobinson/todapp-pipelinebuild:latest"
+                sh "if docker inspect  todoapppipeline > /dev/null 2>&1 ; then docker stop todoapppipeline; docker rm todoapppipeline; fi"
+		sh "docker run -d -p 5001:5000 --name todoapppipeline  leonrobinson/todapp-pipelinebuild:latest"
             }
         }
     }
